@@ -16,3 +16,5 @@ and follow the short instructions below.
 2) Put «ShowHiddenChannels.plugin.js» to your plugin folder.
 3) ???
 4) **Profit!!!**
+
+UPD: NOW YOU DON'T NEED TO REPLACE «0BDFDB.data.json» IN YOUR PLUGIN FOLDER, BECAUSE I'VE ADDED ALL THE NECESSARY DATA IN JS-FILE!!!  
