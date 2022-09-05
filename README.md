@@ -12,9 +12,10 @@ I already save it for you, anonymous <3. You just need to download it
 and follow the short instructions below.
 
 ## Installation ##
-1) Download and extract the files.
-2) Replace «0BDFDB.data.json» from your plugin folder by «0BDFDB.data.json» downloaded from here (you can also write required lines in this file without replacing).
-3) Put «ShowHiddenChannels.plugin.js» to your plugin folder.
-4) Restart your Discord or just press Ctrl+R
-5) ???
-6) **Profit!!!**
+1) Close Discord.
+2) Download and extract the files.
+3) Replace «0BDFDB.data.json» from your plugin folder by «0BDFDB.data.json» downloaded from here (you can also write required lines in this file without replacing).
+4) Put «ShowHiddenChannels.plugin.js» to your plugin folder.
+5) Run Discord.
+6) ???
+7) **Profit!!!**
