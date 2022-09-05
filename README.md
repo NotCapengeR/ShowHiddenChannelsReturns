@@ -1,6 +1,6 @@
 # ShowHiddenChannels Plugin Returns #
 [DevilBro](https://github.com/mwittrien "ShowHiddenChannels plugin author"), author of this plugin, and BetterDiscord developers
-have deleted ShowHiddenChannels plugin from official BetterDiscord site >:C.
+have deleted ShowHiddenChannels plugin from the official BetterDiscord site >:C.
 
 ![](/assets/Screenshot-2022-09-05_194143.png)
 
