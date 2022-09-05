@@ -8,12 +8,13 @@
  * @donate https://www.paypal.me/MircoWittrien
  * @patreon https://www.patreon.com/MircoWittrien
  * @website https://mwittrien.github.io/
- * @source https://github.com/mwittrien/BetterDiscordAddons/tree/master/Plugins/ShowHiddenChannels/
+ * @source https://github.com/NotCapengeR/ShowHiddenChannelsReturns/blob/master/ShowHiddenChannels.plugin.js
  * @updateUrl https://mwittrien.github.io/BetterDiscordAddons/Plugins/ShowHiddenChannels/ShowHiddenChannels.plugin.js
  */
 
 module.exports = (_ => {
 	const changeLog = {
+		
 		
 	};
 
