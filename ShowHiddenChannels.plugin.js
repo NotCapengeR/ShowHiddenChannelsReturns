@@ -12,9 +12,11 @@
  * @updateUrl https://mwittrien.github.io/BetterDiscordAddons/Plugins/ShowHiddenChannels/ShowHiddenChannels.plugin.js
  */
 
+const SHOW_HIDDEN_CHANNELS_ACCESS_MODAL = "accessModal-w5HjsV";
+const SHOW_HIDDEH_CHANNEL_HIDDEN_CHANNEL = "hidden-9f2Dsa";
+
 module.exports = (_ => {
 	const changeLog = {
-		
 		
 	};
 
@@ -205,7 +207,7 @@ module.exports = (_ => {
 				};
 				
 				this.css = `
-					${BDFDB.dotCNS._showhiddenchannelsaccessmodal + BDFDB.dotCN.messagespopoutemptyplaceholder} {
+					${SHOW_HIDDEN_CHANNELS_ACCESS_MODAL + BDFDB.dotCN.messagespopoutemptyplaceholder} {
 						position: absolute;
 						bottom: 0;
 						width: 100%;
@@ -416,7 +418,7 @@ module.exports = (_ => {
 			
 			processChannelItem (e) {
 				if (e.instance.props.channel && this.isChannelHidden(e.instance.props.channel.id)) {
-					if (!e.returnvalue) e.instance.props.className = BDFDB.DOMUtils.formatClassName(e.instance.props.className, BDFDB.disCN._showhiddenchannelshiddenchannel);
+					if (!e.returnvalue) e.instance.props.className = BDFDB.DOMUtils.formatClassName(e.instance.props.className, SHOW_HIDDEH_CHANNEL_HIDDEN_CHANNEL);
 					else {
 						let [children, index] = BDFDB.ReactUtils.findParent(e.returnvalue, {name: "ChannelItemIcon"});
 						let channelChildren = BDFDB.ReactUtils.findChild(e.returnvalue, {props: [["className", BDFDB.disCN.channelchildren]]});
@@ -569,7 +571,7 @@ module.exports = (_ => {
 					size: "MEDIUM",
 					header: BDFDB.LanguageUtils.LanguageStrings.CHANNEL + " " + BDFDB.LanguageUtils.LanguageStrings.ACCESSIBILITY,
 					subHeader: "#" + channel.name,
-					className: BDFDB.disCN._showhiddenchannelsaccessmodal,
+					className: SHOW_HIDDEN_CHANNELS_ACCESS_MODAL,
 					contentClassName: BDFDB.DOMUtils.formatClassName(!isThread && BDFDB.disCN.listscroller),
 					onOpen: modalInstance => {if (modalInstance) accessModal = modalInstance;},
 					children: isThread ? infoStrings : [
