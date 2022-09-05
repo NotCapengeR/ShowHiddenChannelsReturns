@@ -12,7 +12,7 @@ I already save it for you, anonymous <3. You just need to download it
 and follow the short instructions below.
 
 ## Installation ##
-1) Download files.
+1) Download and extract the files.
 2) Replace «0BDFDB.data.json» from your plugin folder by «0BDFDB.data.json» downloaded from here (you can also write required lines in this file without replacing).
 3) Put «ShowHiddenChannels.plugin.js» to your plugin folder.
 4) Restart your Discord or just press Ctrl+R
