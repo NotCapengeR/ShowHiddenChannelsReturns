@@ -9,7 +9,7 @@
  * @patreon https://www.patreon.com/MircoWittrien
  * @website https://mwittrien.github.io/
  * @source https://github.com/NotCapengeR/ShowHiddenChannelsReturns/blob/master/ShowHiddenChannels.plugin.js
- * @updateUrl https://mwittrien.github.io/BetterDiscordAddons/Plugins/ShowHiddenChannels/ShowHiddenChannels.plugin.js
+ * @updateUrl https://github.com/NotCapengeR/ShowHiddenChannelsReturns/blob/master/ShowHiddenChannels.plugin.js
  */
 
 const SHOW_HIDDEN_CHANNELS_ACCESS_MODAL = "accessModal-w5HjsV";
