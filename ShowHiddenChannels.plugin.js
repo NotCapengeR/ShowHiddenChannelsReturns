@@ -12,13 +12,20 @@
  * @updateUrl https://github.com/NotCapengeR/ShowHiddenChannelsReturns/blob/master/ShowHiddenChannels.plugin.js
  */
 
-const SHOW_HIDDEN_CHANNELS_ACCESS_MODAL = "accessModal-w5HjsV";
-const SHOW_HIDDEH_CHANNEL_HIDDEN_CHANNEL = "hidden-9f2Dsa";
-
-module.exports = (_ => {
+ module.exports = (_ => {
+	const config = {
+		"info": {
+			"name": "ShowHiddenChannels",
+			"author": "DevilBro",
+			"version": "3.2.5",
+			"description": "Displays all hidden Channels, which can't be accessed due to Role Restrictions, this won't allow you to read them (impossible)"
+		}
+	};
 	const changeLog = {
 		
 	};
+	const SHOW_HIDDEN_CHANNELS_ACCESS_MODAL = "accessModal-w5HjsV";
+	const SHOW_HIDDEH_CHANNEL_HIDDEN_CHANNEL = "hidden-9f2Dsa";
 
 	return !window.BDFDB_Global || (!window.BDFDB_Global.loaded && !window.BDFDB_Global.started) ? class {
 		constructor (meta) {for (let key in meta) this[key] = meta[key];}
