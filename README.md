@@ -18,4 +18,4 @@ and follow the short instructions below.
 4) ???
 5) **Profit!!!** 
 
-UPD: NOW DON'T NEED TO REPLACE «OBDFDB.plugin.js»!!!
+UPD: NOW DON'T NEED TO REPLACE «OBDFDB.data.json»!!!
