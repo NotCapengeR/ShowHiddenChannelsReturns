@@ -13,7 +13,7 @@ and follow the short instructions below.
 
 ## Installation ##
 1) Download and extract the files.
-2) Put «ShowHiddenChannelsReturns.plugin.js» to your plugin folder.
+2) Drop «ShowHiddenChannelsReturns.plugin.js» into your plugin folder.
 3) Run Discord.
 4) ???
 5) **Profit!!!** 
