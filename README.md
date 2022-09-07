@@ -19,3 +19,5 @@ and follow the short instructions below.
 5) **Profit!!!** 
 
 UPD: NOW DON'T NEED TO REPLACE «OBDFDB.data.json»!!!
+
+UPD 2: DO NOT RENAME FILENAME AND IT METADATA TO «ShowHiddenChannels» — BETTER DISCORD WILL AUTO UPDATE IT!!!
