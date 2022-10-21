@@ -5,8 +5,8 @@
  * @invite Jx3TjNS
  * @version 3.2.6
  * @description Displays all hidden Channels, which can't be accessed due to Role Restrictions, this won't allow you to read them (impossible)
- * @source https://github.com/NotCapengeR/ShowHiddenChannelsReturns/blob/master/ShowHiddenChannels.plugin.js
- * @updateUrl https://raw.githubusercontent.com/NotCapengeR/ShowHiddenChannelsReturns/master/ShowHiddenChannels.plugin.js
+ * @source https://github.com/NotCapengeR/ShowHiddenChannelsReturns/
+ * @updateUrl https://raw.githubusercontent.com/NotCapengeR/ShowHiddenChannelsReturns/master/ShowHiddenChannelsReturns.plugin.js
  */
 
  module.exports = (_ => {
