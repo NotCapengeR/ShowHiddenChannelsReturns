@@ -3,11 +3,8 @@
  * @author DevilBro
  * @authorId 278543574059057154
  * @invite Jx3TjNS
- * @version 3.2.5
+ * @version 3.2.6
  * @description Displays all hidden Channels, which can't be accessed due to Role Restrictions, this won't allow you to read them (impossible)
- * @donate https://www.paypal.me/MircoWittrien
- * @patreon https://www.patreon.com/MircoWittrien
- * @website https://mwittrien.github.io/
  * @source https://github.com/NotCapengeR/ShowHiddenChannelsReturns/blob/master/ShowHiddenChannels.plugin.js
  * @updateUrl https://raw.githubusercontent.com/NotCapengeR/ShowHiddenChannelsReturns/master/ShowHiddenChannels.plugin.js
  */
@@ -17,7 +14,7 @@
 		"info": {
 			"name": "ShowHiddenChannelsReturns",
 			"author": "DevilBro",
-			"version": "3.2.5",
+			"version": "3.2.6",
 			"description": "Displays all hidden Channels, which can't be accessed due to Role Restrictions, this won't allow you to read them (impossible)"
 		}
 	};
@@ -103,7 +100,7 @@
 				if (this.props.user.fetchable) {
 					this.props.user.fetchable = false;
 					BDFDB.LibraryModules.UserProfileUtils.getUser(this.props.user.id).then(fetchedUser => {
-						this.props.user = Object.assign({}, fetchedUser, BDFDB.LibraryModules.MemberStore.getMember(this.props.guildId, this.props.user.id) || {});
+						this.props.user = Object.assign({}, fetchedUser, BDFDB.LibraryStores.GuildMemberStore.getMember(this.props.guildId, this.props.user.id) || {});
 						BDFDB.ReactUtils.forceUpdate(this);
 					});
 				}
@@ -196,18 +193,16 @@
 						GUILD_STAGE_VOICE:		{value: true}
 					}
 				};
-			
-				this.patchedModules = {
-					before: {
-						ChannelList: "render",
-						ChannelCategoryItem: "type",
-						ChannelItem: "default",
-						VoiceUsers: "render"
-					},
-					after: {
-						useInviteItem: "default",
-						ChannelItem: "default"
-					}
+        
+				this.modulePatches = {
+					before: [
+						"ChannelsList",
+						"ChannelItem",
+						"VoiceUsers"
+					],
+					after: [
+						"ChannelItem"
+					]
 				};
 				
 				this.css = `
@@ -223,15 +218,15 @@
 				this.saveBlackList(this.getBlackList());
 				
 				BDFDB.PatchUtils.patch(this, BDFDB.LibraryModules.GuildUtils, "setChannel", {instead: e => {
-					let channelId = (BDFDB.LibraryModules.VoiceUtils.getVoiceStateForUser(e.methodArguments[1]) || {}).channelId;
+					let channelId = (BDFDB.LibraryStores.SortedVoiceStateStore.getVoiceStateForUser(e.methodArguments[1]) || {}).channelId;
 					if (!channelId || !this.isChannelHidden(channelId)) return e.callOriginalMethod();
 				}});
 				
-				BDFDB.PatchUtils.patch(this, BDFDB.LibraryModules.UnreadChannelUtils, "hasUnread", {after: e => {
+				BDFDB.PatchUtils.patch(this, BDFDB.LibraryStores.ReadStateStore, "hasUnread", {after: e => {
 					return e.returnValue && !this.isChannelHidden(e.methodArguments[0]);
 				}});
 				
-				BDFDB.PatchUtils.patch(this, BDFDB.LibraryModules.UnreadChannelUtils, "getMentionCount", {after: e => {
+				BDFDB.PatchUtils.patch(this, BDFDB.LibraryStores.ReadStateStore, "getMentionCount", {after: e => {
 					return e.returnValue ? (this.isChannelHidden(e.methodArguments[0]) ? 0 : e.returnValue) : e.returnValue;
 				}});
 
@@ -321,13 +316,13 @@
 			forceUpdateAll () {				
 				hiddenChannelCache = {};
 
-				BDFDB.PatchUtils.forceAllUpdates(this);
+				BDFDB.DiscordUtils.rerenderAll();
 				BDFDB.ChannelUtils.rerenderAll();
 			}
 		
 			onUserContextMenu (e) {
 				if (e.subType == "useUserManagementItems" || e.subType == "useMoveUserVoiceItems" || e.subType == "usePreviewVideoItem") {
-					let channelId = (BDFDB.LibraryModules.VoiceUtils.getVoiceStateForUser(e.instance.props.user.id) || {}).channelId;
+					let channelId = (BDFDB.LibraryStores.SortedVoiceStateStore.getVoiceStateForUser(e.instance.props.user.id) || {}).channelId;
 					if (channelId && this.isChannelHidden(channelId)) return null;
 				}
 			}
@@ -369,11 +364,7 @@
 				this.onGuildContextMenu(e);
 			}
 			
-			processUseInviteItem (e) {
-				if (e.instance.props.channel && this.isChannelHidden(e.instance.props.channel.id)) return null;
-			}
-			
-			processChannelList (e) {
+			processChannelsList (e) {
 				if (!e.instance.props.guild || e.instance.props.guild.id.length < 16) return;
 				let show = !blackList.includes(e.instance.props.guild.id), sortAtBottom = this.settings.sortOrder.hidden == sortOrders.BOTTOM.value;
 				e.instance.props.guildChannels = new e.instance.props.guildChannels.constructor(e.instance.props.guildChannels.id, e.instance.props.guildChannels.hoistedSection.hoistedRows);
@@ -460,14 +451,14 @@
 			}
 			
 			isChannelHidden (channelId) {
-				let channel = BDFDB.LibraryModules.ChannelStore.getChannel(channelId);
+				let channel = BDFDB.LibraryStores.ChannelStore.getChannel(channelId);
 				if (!channel || !channel.guild_id) return false;
 				return hiddenChannelCache[channel.guild_id] && hiddenChannelCache[channel.guild_id].indexOf(channelId) > -1;
 			}
 			
 			batchSetGuilds (settingsPanel, collapseStates, value) {
 				if (!value) {
-					for (let id of BDFDB.LibraryModules.FolderStore.getFlattenedGuildIds()) blackList.push(id);
+					for (let id of BDFDB.LibraryStores.SortedGuildStore.getFlattenedGuildIds()) blackList.push(id);
 					this.saveBlackList(BDFDB.ArrayUtils.removeCopies(blackList));
 				}
 				else this.saveBlackList([]);
@@ -487,17 +478,17 @@
 			
 			openAccessModal (channel, allowed) {
 				let isThread = BDFDB.ChannelUtils.isThread(channel);
-				let guild = BDFDB.LibraryModules.GuildStore.getGuild(channel.guild_id);
-				let myMember = guild && BDFDB.LibraryModules.MemberStore.getMember(guild.id, BDFDB.UserUtils.me.id);
+				let guild = BDFDB.LibraryStores.GuildStore.getGuild(channel.guild_id);
+				let myMember = guild && BDFDB.LibraryStores.GuildMemberStore.getMember(guild.id, BDFDB.UserUtils.me.id);
 				
-				let parentChannel = isThread && BDFDB.LibraryModules.ChannelStore.getChannel(BDFDB.LibraryModules.ChannelStore.getChannel(channel.id).parent_id);
-				let category = parentChannel && parentChannel.parent_id && BDFDB.LibraryModules.ChannelStore.getChannel(parentChannel.parent_id) || BDFDB.LibraryModules.ChannelStore.getChannel(BDFDB.LibraryModules.ChannelStore.getChannel(channel.id).parent_id);
+				let parentChannel = isThread && BDFDB.LibraryStores.ChannelStore.getChannel(BDFDB.LibraryStores.ChannelStore.getChannel(channel.id).parent_id);
+				let category = parentChannel && parentChannel.parent_id && BDFDB.LibraryStores.ChannelStore.getChannel(parentChannel.parent_id) || BDFDB.LibraryStores.ChannelStore.getChannel(BDFDB.LibraryStores.ChannelStore.getChannel(channel.id).parent_id);
 				
 				let lightTheme = BDFDB.DiscordUtils.getTheme() == BDFDB.disCN.themelight;
 				
 				let addUser = (id, users) => {
-					let user = BDFDB.LibraryModules.UserStore.getUser(id);
-					if (user) users.push(Object.assign({}, user, BDFDB.LibraryModules.MemberStore.getMember(guild.id, id) || {}));
+					let user = BDFDB.LibraryStores.UserStore.getUser(id);
+					if (user) users.push(Object.assign({}, user, BDFDB.LibraryStores.GuildMemberStore.getMember(guild.id, id) || {}));
 					else users.push({id: id, username: `UserId: ${id}`, fetchable: true});
 				};
 				let checkAllowPerm = permString => {
